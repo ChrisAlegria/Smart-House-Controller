@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_home_controler/pages/devices_screen.dart';
+import 'package:smart_home_controler/pages/profile.dart';
+import 'package:smart_home_controler/pages/home_page.dart';
 import 'dart:math' as math;
 
 class HomeControlScreen extends StatefulWidget {
@@ -17,7 +20,6 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
   Map<String, bool> _doors = {
     'Living Room': false,
     'Bedroom': false,
-    'Kitchen': false,
     'Bathroom': false,
   };
 
@@ -28,51 +30,106 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Smart House Controller',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Smart Home Controller',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Profile(
+                      '', // Proporciona un valor para username
+                      imagePath: '', // Proporciona un valor para imagePath
+                    ),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('House Control'),
+            ),
+            ListTile(
+              leading: Icon(Icons.bluetooth),
+              title: Text('Conection'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DevicesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Salir'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 20),
-            Text(
-              'Smart Home Controller',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey[900],
-              ),
-            ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: Container(
-                    height: 350,
+                    height: 300,
                     decoration: BoxDecoration(
                       color: Colors.blueGrey[900],
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.5),
-                          blurRadius: 15,
-                          offset: Offset(0, 8),
+                          blurRadius: 10,
+                          offset: Offset(0, 5),
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(15.0),
                     child: Column(
                       children: [
                         Text(
                           'Temperature Control',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 14,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 110),
+                        SizedBox(height: 120),
                         Expanded(
                           child: GestureDetector(
                             onPanUpdate: (details) {
@@ -83,17 +140,17 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                               });
                             },
                             child: CustomPaint(
-                              size: Size(250, 250),
+                              size: Size(200, 200),
                               painter: TemperatureSliderPainter(_temperature),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 40),
                         Text(
                           'Adjust Temperature: ${_temperature.toStringAsFixed(1)}°C',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -101,37 +158,37 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 10),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.blueGrey[900],
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.5),
-                          blurRadius: 15,
-                          offset: Offset(0, 8),
+                          blurRadius: 10,
+                          offset: Offset(0, 5),
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Lights',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 14,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         Column(
                           children: _lights.keys.map((room) {
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
+                              padding: const EdgeInsets.only(bottom: 5.0),
                               child: _buildSwitchControl(
                                   room, _lights[room]!, true),
                             );
@@ -143,31 +200,31 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
                 color: Colors.blueGrey[900],
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),
-                    blurRadius: 15,
-                    offset: Offset(0, 8),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(10.0),
               child: Column(
                 children: [
                   Text(
                     'Fan Control',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 14,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   GestureDetector(
                     onTap: () {
                       setState(() {
@@ -176,8 +233,8 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                     },
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 300),
-                      width: 120,
-                      height: 120,
+                      width: 50,
+                      height: 50,
                       decoration: BoxDecoration(
                         color: _isFanOn ? Colors.tealAccent : Colors.grey[800]!,
                         shape: BoxShape.circle,
@@ -192,15 +249,15 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.5),
-                            blurRadius: 15,
-                            offset: Offset(0, 6),
+                            blurRadius: 10,
+                            offset: Offset(0, 3),
                           ),
                         ],
                       ),
                       child: Center(
                         child: Icon(
                           _isFanOn ? Icons.ac_unit : Icons.ac_unit_outlined,
-                          size: 60,
+                          size: 20,
                           color: Colors.white,
                         ),
                       ),
@@ -209,36 +266,36 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
                 color: Colors.blueGrey[900],
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),
-                    blurRadius: 15,
-                    offset: Offset(0, 8),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Doors',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 14,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Column(
                     children: _doors.keys.map((door) {
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
+                        padding: const EdgeInsets.only(bottom: 5.0),
                         child: _buildSwitchControl(door, _doors[door]!, false),
                       );
                     }).toList(),
@@ -258,7 +315,7 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
         label,
         style: TextStyle(
           color: Colors.white,
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -292,7 +349,7 @@ class TemperatureSliderPainter extends CustomPainter {
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..strokeWidth = 20
+      ..strokeWidth = 10
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
@@ -311,8 +368,8 @@ class TemperatureSliderPainter extends CustomPainter {
 
     final temperatureAngle = math.pi + ((temperature - 15) / 15) * math.pi;
     final temperatureOffset = Offset(
-      size.width / 2 + (size.width / 2 - 10) * math.cos(temperatureAngle),
-      size.height / 2 + (size.width / 2 - 10) * math.sin(temperatureAngle),
+      size.width / 2 + (size.width / 2 - 5) * math.cos(temperatureAngle),
+      size.height / 2 + (size.width / 2 - 5) * math.sin(temperatureAngle),
     );
 
     final textPainter = TextPainter(
@@ -320,7 +377,7 @@ class TemperatureSliderPainter extends CustomPainter {
         text: '${temperature.toStringAsFixed(1)}°C',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 36,
+          fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -334,17 +391,20 @@ class TemperatureSliderPainter extends CustomPainter {
 
     final textOffset = Offset(
       size.width / 2 - textPainter.width / 2,
-      20, // Center text at the top of the container
+      10, // Center text at the top of the container
     );
 
-    canvas.drawCircle(temperatureOffset, 10, Paint()..color = Colors.white);
     textPainter.paint(canvas, textOffset);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+    return oldDelegate is TemperatureSliderPainter &&
+        oldDelegate.temperature != temperature;
   }
 }
 
-void main() => runApp(MaterialApp(home: HomeControlScreen()));
+void main() {
+  runApp(MaterialApp(
+      home: HomeControlScreen(), debugShowCheckedModeBanner: false));
+}
