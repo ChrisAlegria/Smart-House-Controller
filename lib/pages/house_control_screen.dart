@@ -8,6 +8,20 @@ class HomeControlScreen extends StatefulWidget {
 
 class _HomeControlScreenState extends State<HomeControlScreen> {
   double _temperature = 22.0;
+  Map<String, bool> _lights = {
+    'Living Room': false,
+    'Bedroom': false,
+    'Kitchen': false,
+    'Bathroom': false,
+  };
+  Map<String, bool> _doors = {
+    'Living Room': false,
+    'Bedroom': false,
+    'Kitchen': false,
+    'Bathroom': false,
+  };
+
+  bool _isFanOn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +132,8 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                           children: _lights.keys.map((room) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
-                              child: _buildLightControl(room, _lights[room]!),
+                              child: _buildSwitchControl(
+                                  room, _lights[room]!, true),
                             );
                           }).toList(),
                         ),
@@ -194,59 +209,72 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey[900],
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    blurRadius: 15,
+                    offset: Offset(0, 8),
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Doors',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Column(
+                    children: _doors.keys.map((door) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: _buildSwitchControl(door, _doors[door]!, false),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLightControl(String room, bool isLightOn) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _lights[room] = !isLightOn;
-        });
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: isLightOn ? Colors.yellow[700] : Colors.grey[800]!,
-          borderRadius: BorderRadius.circular(10),
-          gradient: LinearGradient(
-            colors: [
-              isLightOn ? Colors.yellow[700]! : Colors.grey[800]!,
-              Colors.black.withOpacity(0.4),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              blurRadius: 10,
-              offset: Offset(0, 6),
-            ),
-          ],
-        ),
-        padding: EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            Icon(
-              isLightOn ? Icons.lightbulb : Icons.lightbulb_outline,
-              size: 30,
-              color: Colors.white,
-            ),
-            SizedBox(width: 10),
-            Text(
-              room,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
+  Widget _buildSwitchControl(String label, bool value, bool isLight) {
+    return SwitchListTile(
+      title: Text(
+        label,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
       ),
+      value: value,
+      onChanged: (bool newValue) {
+        setState(() {
+          if (isLight) {
+            _lights[label] = newValue;
+          } else {
+            _doors[label] = newValue;
+          }
+        });
+      },
+      activeColor: isLight ? Colors.yellow : Colors.green,
+      inactiveThumbColor: Colors.grey[800],
+      inactiveTrackColor: Colors.grey[600],
     );
   }
 }
@@ -320,12 +348,3 @@ class TemperatureSliderPainter extends CustomPainter {
 }
 
 void main() => runApp(MaterialApp(home: HomeControlScreen()));
-
-Map<String, bool> _lights = {
-  'Living Room': false,
-  'Bedroom': false,
-  'Kitchen': false,
-  'Bathroom': false,
-};
-
-bool _isFanOn = false;
