@@ -58,7 +58,7 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 110),
                         Expanded(
                           child: GestureDetector(
                             onPanUpdate: (details) {
@@ -74,7 +74,7 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 20),
                         Text(
                           'Adjust Temperature: ${_temperature.toStringAsFixed(1)}°C',
                           style: TextStyle(
@@ -306,7 +306,7 @@ class TemperatureSliderPainter extends CustomPainter {
 
     final textOffset = Offset(
       size.width / 2 - textPainter.width / 2,
-      size.height / 2 - textPainter.height / 2,
+      20, // Center text at the top of the container
     );
 
     canvas.drawCircle(temperatureOffset, 10, Paint()..color = Colors.white);
