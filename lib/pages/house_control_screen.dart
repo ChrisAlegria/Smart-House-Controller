@@ -261,8 +261,8 @@ class TemperatureSliderPainter extends CustomPainter {
     final paint = Paint()
       ..shader = LinearGradient(
         colors: [Colors.blue, Colors.red],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
       ..strokeWidth = 20
       ..strokeCap = StrokeCap.round
@@ -323,8 +323,8 @@ void main() => runApp(MaterialApp(home: HomeControlScreen()));
 
 Map<String, bool> _lights = {
   'Living Room': false,
-  'Kitchen': false,
   'Bedroom': false,
+  'Kitchen': false,
   'Bathroom': false,
 };
 
