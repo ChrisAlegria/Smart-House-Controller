@@ -97,7 +97,7 @@ class Profile extends StatelessWidget {
                     height: 50,
                   ),
                   Text(
-                    'Hola ' + username + '!',
+                    'Hola, nos da gusto mirarte de nuevo ' + username + '!',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -119,7 +119,7 @@ class Profile extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      '¡Bienvenido!',
+                      '¡Bienvenido de Nuevo!',
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.left,
                     ),
