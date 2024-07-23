@@ -89,13 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Column(
                           children: [
                             Text(
-                              "Autenticación con reconocimiento facial",
+                              "Smart Home Controller",
                               style: TextStyle(
                                   fontSize: 25, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(
-                              height: 60,
+                              height: 50,
                             ),
                           ],
                         ),
@@ -139,12 +139,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 children: [
                                   Text(
                                     'Iniciar sesión',
-                                    style: TextStyle(color: Color(0xFF0F0BDB)),
+                                    style:
+                                        TextStyle(color: Colors.blueGrey[900]),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Icon(Icons.login, color: Color(0xFF0F0BDB))
+                                  Icon(Icons.login, color: Colors.blueGrey[900])
                                 ],
                               ),
                             ),
@@ -164,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFF0F0BDB),
+                                color: Colors.blueGrey[900],
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     color: Colors.blue.withOpacity(0.1),

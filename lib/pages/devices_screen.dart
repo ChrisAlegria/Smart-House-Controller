@@ -129,7 +129,7 @@ class _DevicesScreenState extends State<DevicesScreen> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.blueGrey[900],
               ),
               child: Text(
                 'Smart Home Controller',

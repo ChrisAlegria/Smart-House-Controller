@@ -44,7 +44,7 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.blueGrey[900],
               ),
               child: Text(
                 'Smart Home Controller',

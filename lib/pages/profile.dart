@@ -22,7 +22,12 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Center(
+          child: Text(
+            'Smart Home Controller',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
       ),
       drawer: Drawer(
         child: ListView(
@@ -30,7 +35,7 @@ class Profile extends StatelessWidget {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.blueGrey[900],
               ),
               child: Text(
                 'Smart Home Controller',
@@ -56,7 +61,7 @@ class Profile extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.bluetooth),
-              title: Text('Conection'),
+              title: Text('Connection'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -66,7 +71,7 @@ class Profile extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.logout),
-              title: Text('Salir'),
+              title: Text('Logout'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -79,8 +84,20 @@ class Profile extends StatelessWidget {
       ),
       body: SafeArea(
         child: Container(
+          padding: EdgeInsets.all(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                'Bienvenido a Smart Home Controller',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey[900],
+                ),
+              ),
+              Divider(color: Colors.blueGrey[900], thickness: 2, height: 30),
+              SizedBox(height: 20),
               Row(
                 children: [
                   Container(
@@ -92,38 +109,31 @@ class Profile extends StatelessWidget {
                         image: FileImage(File(imagePath)),
                       ),
                     ),
-                    margin: EdgeInsets.all(20),
-                    width: 50,
-                    height: 50,
+                    margin: EdgeInsets.only(right: 20),
+                    width: 60,
+                    height: 60,
                   ),
-                  Text(
-                    'Hola, nos da gusto mirarte de nuevo ' + username + '!',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  Expanded(
+                    child: Text(
+                      'Nos da gusto mirarte de nuevo $username!',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blueGrey[900],
+                      ),
+                    ),
                   ),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Color(0xFFFEFFC1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.warning_amber_outlined,
-                      size: 30,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      '¡Bienvenido de Nuevo!',
-                      style: TextStyle(fontSize: 16),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  'Esta aplicación te permite controlar tu casa inteligente de forma fácil y conveniente. '
+                  'Puedes manejar luces, dispositivos y la temperatura desde tu dispositivo. ¡Disfruta '
+                  'de una experiencia integrada y eficiente con nuestro Smart Home Controller!',
+                  style: TextStyle(
+                      fontSize: 15, height: 1.5, color: Colors.black87),
                 ),
               ),
             ],
