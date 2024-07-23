@@ -96,8 +96,6 @@ class Profile extends StatelessWidget {
                   color: Colors.blueGrey[900],
                 ),
               ),
-              Divider(color: Colors.blueGrey[900], thickness: 2, height: 30),
-              SizedBox(height: 20),
               Row(
                 children: [
                   Container(
@@ -109,7 +107,7 @@ class Profile extends StatelessWidget {
                         image: FileImage(File(imagePath)),
                       ),
                     ),
-                    margin: EdgeInsets.only(right: 20),
+                    margin: EdgeInsets.only(right: 20, top: 10),
                     width: 60,
                     height: 60,
                   ),
@@ -117,7 +115,7 @@ class Profile extends StatelessWidget {
                     child: Text(
                       'Nos da gusto mirarte de nuevo $username!',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: Colors.blueGrey[900],
                       ),
@@ -125,6 +123,7 @@ class Profile extends StatelessWidget {
                   ),
                 ],
               ),
+              Divider(color: Colors.blueGrey[900], thickness: 2, height: 30),
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),

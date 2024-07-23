@@ -329,7 +329,7 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
           }
         });
       },
-      activeColor: isLight ? Colors.yellow : Colors.green,
+      activeColor: isLight ? Colors.yellow : Colors.blue,
       inactiveThumbColor: Colors.grey[800],
       inactiveTrackColor: Colors.grey[600],
     );
