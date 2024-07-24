@@ -6,12 +6,12 @@
 BluetoothSerial BT;
 
 // Puertos GPIO para LEDs RGB y servo
-int redLed = 21, greenLed = 19, blueLed = 18;
+const int redLed = 21, greenLed = 19, blueLed = 18;
 int redColor = 0, greenColor = 0, blueColor = 0;
 
 // Servo
 Servo myServo;
-int servoPin = 5;
+const int servoPin = 5;
 
 // Sensor DHT
 #define DHTPIN 4  // Pin conectado al sensor DHT
@@ -61,6 +61,8 @@ void parseData(String data) {
     parseRGB(data.substring(4));
   } else if (data.startsWith("SERVO,")) {
     parseServo(data.substring(6));
+  } else if (data.startsWith("LED,ON") || data.startsWith("LED,OFF")) {
+    handleLedControl(data);
   } else {
     Serial.println("Comando no reconocido");
   }
@@ -75,15 +77,16 @@ void parseRGB(String data) {
     greenColor = data.substring(commaIndex1 + 1, commaIndex2).toInt();
     blueColor = data.substring(commaIndex2 + 1).toInt();
 
+    analogWrite(redLed, redColor);
+    analogWrite(greenLed, greenColor);
+    analogWrite(blueLed, blueColor);
+    
+    Serial.print("RGB set to: ");
     Serial.print(redColor);
     Serial.print(", ");
     Serial.print(greenColor);
     Serial.print(", ");
     Serial.println(blueColor);
-
-    analogWrite(redLed, redColor);
-    analogWrite(greenLed, greenColor);
-    analogWrite(blueLed, blueColor);
   } else {
     Serial.println("Valor RGB incorrecto");
   }
@@ -93,9 +96,23 @@ void parseServo(String data) {
   int angle = data.toInt();
   if (angle >= 0 && angle <= 180) {
     myServo.write(angle);
-    Serial.print("Servo movido a: ");
+    Serial.print("Servo moved to: ");
     Serial.println(angle);
   } else {
     Serial.println("Ángulo de servo incorrecto");
+  }
+}
+
+void handleLedControl(String data) {
+  if (data == "LED,ON") {
+    analogWrite(redLed, 255);
+    analogWrite(greenLed, 255);
+    analogWrite(blueLed, 255);
+    Serial.println("LEDs turned ON");
+  } else if (data == "LED,OFF") {
+    analogWrite(redLed, 0);
+    analogWrite(greenLed, 0);
+    analogWrite(blueLed, 0);
+    Serial.println("LEDs turned OFF");
   }
 }
