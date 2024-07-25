@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home_controler/pages/devices_screen.dart';
 import 'package:smart_home_controler/pages/profile.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:smart_home_controler/pages/home_page.dart';
 import 'dart:math' as math;
+import 'dart:async';
 
 class HomeControlScreen extends StatefulWidget {
   @override
@@ -24,6 +26,62 @@ class _HomeControlScreenState extends State<HomeControlScreen> {
   };
 
   bool _isFanOn = false;
+  BluetoothDevice? _device;
+  BluetoothCharacteristic? _characteristic;
+
+  Future<void> _connectToBluetooth() async {
+    final bluetooth = FlutterBlue.instance;
+    final scanSubscription = bluetooth.scan().listen((scanResult) async {
+      if (scanResult.device.name == '') {
+        await scanResult.device.connect();
+        _device = scanResult.device;
+
+        List<BluetoothService> services = await _device!.discoverServices();
+        for (BluetoothService service in services) {
+          for (BluetoothCharacteristic characteristic
+              in service.characteristics) {
+            if (characteristic.uuid.toString() == '') {
+              _characteristic = characteristic;
+            }
+          }
+        }
+      }
+    });
+  }
+
+  Future<void> _sendCommand(String command) async {
+    if (_characteristic != null) {
+      await _characteristic!.write(command.codeUnits);
+    }
+  }
+
+  void _updateLight(String room, bool value) {
+    setState(() {
+      _lights[room] = value;
+      _sendCommand(value ? 'LIGHT_ON_$room' : 'LIGHT_OFF_$room');
+    });
+  }
+
+  void _updateDoor(String door, bool value) {
+    setState(() {
+      _doors[door] = value;
+      _sendCommand(value ? 'DOOR_OPEN_$door' : 'DOOR_CLOSE_$door');
+    });
+  }
+
+  void _updateTemperature(double temperature) {
+    setState(() {
+      _temperature = temperature;
+      _sendCommand('TEMP_$temperature');
+    });
+  }
+
+  void _toggleFan() {
+    setState(() {
+      _isFanOn = !_isFanOn;
+      _sendCommand(_isFanOn ? 'FAN_ON' : 'FAN_OFF');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
